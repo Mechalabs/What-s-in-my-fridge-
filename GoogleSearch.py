@@ -10,11 +10,10 @@ except ImportError:
 
 class Search():
 
-    def __init__(self):
-        self.ingredients = 'egg, tomato, bread'
+    def __init__(self, ingredients):
         self.tabUrl = "https://www.allrecipes.com/search/?sort=Title&page="
         self.searches = []
-        self.array = self.ingredients.split(', ')
+        self.array = ingredients
         
         for i in range(len(self.array)):
             temp = ''
@@ -47,6 +46,3 @@ class Search():
             for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=3, pause=2.0):
                 r = requests.get(url)
                 print(url)
-
-s = Search()
-s.googleSearch()

@@ -1,4 +1,5 @@
 from tkinter import *
+from GoogleSearch import Search
 
 root = Tk()
 
@@ -14,7 +15,12 @@ entry.pack()
 entry.focus_set()
 def callback(): 
     ingredients = (entry.get())
-    arr = [ingredients.strip().split(',')]
+    arr = ingredients.strip().split(',')
+    return arr
 Enterbtn = Button(text = "Enter", command = callback)
 Enterbtn.pack()
-root.mainloop() 
+root.mainloop()
+
+items = callback()
+s = Search(items)
+s.googleSearch()
