@@ -15,12 +15,14 @@ entry.pack()
 entry.focus_set()
 def callback(): 
     ingredients = (entry.get())
+    global arr
     arr = ingredients.strip().split(',')
-    return arr
+    root.destroy()
+
 Enterbtn = Button(text = "Enter", command = callback)
 Enterbtn.pack()
 root.mainloop()
 
-items = callback()
-s = Search(items)
+s = Search(arr)
 s.googleSearch()
+

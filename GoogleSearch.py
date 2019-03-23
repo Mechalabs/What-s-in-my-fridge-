@@ -39,7 +39,6 @@ class Search():
             print(i)
 
     def googleSearch(self):
-        print(self.searches)
         
         for i in self.searches:
             currentQuery = str(i) + ' recipe'
