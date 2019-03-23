@@ -1,67 +1,52 @@
-<<<<<<< HEAD
 try: 
-    from googlesearch import search 
+    from urllib.request import urlopen
+    import webbrowser
     import requests
     from bs4 import BeautifulSoup
+    from googlesearch import search
 
 except ImportError:  
     print("No module named 'google' found") 
-  
-# to search 
-query = "tomato recipe"
-  
-for url in search(query, tld="com", num=10, stop=1, pause=2): 
-    r = requests.get(url) 
-    soup = BeautifulSoup(r.content, 'html.parser')
-    #print(soup.prettify())
-    print(url)
-  
-    h6 = soup.find('h6', attrs={'class': 'name'})
-    h5 = soup.find('h5', attrs={'class': 'name'})
-    h4 = soup.find('h4', attrs={'class': 'name'})
-    h3 = soup.find('h3', attrs={'class': 'name'})
-    h2 = soup.find('h2', attrs={'class': 'name'})
-    h1 = soup.find('h1', attrs={'class': 'name'})
-    p = soup.find('p', attrs={'class': 'name'})
-    name6 = h6.text.strip()
-    name5 = h5.text.strip()
-    name4 = h4.text.strip()
-    name3 = h3.text.strip()
-    name2 = h2.text.strip()
-    name1 = h1.text.strip()
-    namep = p.text.strip()
-    print(name6)
-    print(name5)
-    print(name4)
-    print(name3)
-    print(name2)
-    print(name1)
-    print(namep)
-=======
-#https://github.com/serpapi/google-search-results-python
 
-import webbrowser
+class Search():
 
-class search():
     def __init__(self):
-        self.tabUrl = "https://www.google.com/search?q="
+        self.ingredients = 'egg, tomato, bread'
+        self.tabUrl = "https://www.allrecipes.com/search/?sort=Title&page="
         self.searches = []
-
-    def begin(self):
-        ingredients = 'egg, tomato'
-        array = ingredients.split(', ')
+        self.array = self.ingredients.split(', ')
         
-        for i in range(len(array)):
+        for i in range(len(self.array)):
             temp = ''
-
-            for j in range(len(array)):
+            for j in range(len(self.array)):
                 if j >= i:
-                    temp += array[j] + ', '
+                    temp += self.array[j] + ' '
                     self.searches.append(temp)
 
+    def openResults(self):
         for i in self.searches:
-            webbrowser.open(self.tabUrl + i + 'recipes', new = True)
+            webbrowser.open(self.tabUrl + i, new = True)
 
-s = search()
-s.begin()
->>>>>>> 41757faa56020f05617f0316f9a176aead8867b1
+    def returnResults(self):
+        for i in self.searches:
+            page = requests.get(self.tabUrl + i)
+            soup = BeautifulSoup(page.text, 'html.parser')
+            for article in soup.select('article'):
+                if article['class'] == 'fixed-recipe-card':
+                    print(article.text)
+
+    def printUrl(self):
+        for i in self.searches:
+            print(i)
+
+    def googleSearch(self):
+        print(self.searches)
+        
+        for i in self.searches:
+            currentQuery = str(i) + ' recipe'
+            for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=3, pause=2.0):
+                r = requests.get(url)
+                print(url)
+
+s = Search()
+s.googleSearch()
