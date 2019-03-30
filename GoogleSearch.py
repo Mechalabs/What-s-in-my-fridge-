@@ -1,15 +1,15 @@
 try: 
     from urllib.request import urlopen
+    import urllib3
     import webbrowser
     import requests
     from bs4 import BeautifulSoup
     from googlesearch import search
 
 except ImportError:  
-    print("No module named 'google' found") 
+    print("Missing Library") 
 
 class Search():
-
     def __init__(self, ingredients):
         self.tabUrl = "https://www.allrecipes.com/search/?sort=Title&page="
         self.searches = []
@@ -26,14 +26,6 @@ class Search():
         for i in self.searches:
             webbrowser.open(self.tabUrl + i, new = True)
 
-    def returnResults(self):
-        for i in self.searches:
-            page = requests.get(self.tabUrl + i)
-            soup = BeautifulSoup(page.text, 'html.parser')
-            for article in soup.select('article'):
-                if article['class'] == 'fixed-recipe-card':
-                    print(article.text)
-
     def printUrl(self):
         for i in self.searches:
             print(i)
@@ -45,3 +37,21 @@ class Search():
             for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=3, pause=2.0):
                 r = requests.get(url)
                 print(url)
+
+    def allRecipes(self):
+        for i in self.searches:
+            currentQuery = 'site: allrecipes.com ' + str(i) + ' recipe'
+            for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=3, pause=1.0):
+                print(url)
+
+'''             TO DO LATER
+                http = urllib3.PoolManager()
+                r = http.request('GET', url)
+                soup = BeautifulSoup(r.data, 'html.parser')
+
+                for p in soup.select('li'):
+                    if p['class'] == 'checkList__line':
+                        print(p.text)
+'''
+s = Search(['tomato','bread'])
+s.allRecipes()
