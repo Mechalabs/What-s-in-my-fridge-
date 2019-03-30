@@ -1,5 +1,6 @@
 from tkinter import *
 from GoogleSearch import Search
+import webbrowser
 
 root = Tk()
 
@@ -13,14 +14,19 @@ prompt.pack()
 entry = Entry(root, width = 50)
 entry.pack()
 entry.focus_set() 
+def clicklink(link):
+    webbrowser.open_new(link)
 def callback(): 
     ingredients = (entry.get())
     arr = ingredients.strip().split(',')
     s = Search(arr)
     s.googleSearch()
     link = s.links
+    for x in link:
+        clicklink(x)
     vv = Label(root, text = '\n'.join(link), font = (font1, 10))
     vv.pack()
+    vv.bind("<Button-1>", clicklink)
 Enterbtn = Button(text = "Enter", command = callback)
 
 Enterbtn.pack()
