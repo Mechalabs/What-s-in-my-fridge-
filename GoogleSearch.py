@@ -16,6 +16,7 @@ class Search():
         self.array = ingredients
         self.stop = 2
         self.pause = 1.0
+        self.links = []
         
         for i in range(len(self.array)):
             temp = ''
@@ -47,8 +48,9 @@ class Search():
             else:
                 currentQuery = str(i) + ' recipe'
             
-            for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=self.stop, pause=self.pause):
-                print('Unknown recipe. Searching google:  ' + url)
+        for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=self.stop, pause=self.pause):
+            print(url)
+            self.links.append(url)
                 
-s = Search(['tomato','bread'])
-s.search('hiiii')
+# s = Search(['tomato','bread'])
+# s.search('food network')

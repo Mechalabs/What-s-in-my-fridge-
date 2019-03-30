@@ -7,6 +7,8 @@ root = Tk()
 root.title = ("GUI")
 font1 = "Courier"
 
+query = 'all recipes'
+
 title = Label(root, text = "What's in your fridge?", font=(font1, 36))
 title.pack()
 prompt = Label (root, text = "Enter your ingredients separated by a comma:", font = (font1, 12))
@@ -20,13 +22,13 @@ def callback():
     ingredients = (entry.get())
     arr = ingredients.strip().split(',')
     s = Search(arr)
-    s.googleSearch()
+    s.search(query)
     link = s.links
     for x in link:
         clicklink(x)
     vv = Label(root, text = '\n'.join(link), font = (font1, 10))
     vv.pack()
-    vv.bind("<Button-1>", clicklink)
+    # vv.bind("<Button-1>", clicklink)
 Enterbtn = Button(text = "Enter", command = callback)
 
 Enterbtn.pack()
