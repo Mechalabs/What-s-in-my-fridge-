@@ -7,7 +7,7 @@ root = Tk()
 root.title = ("GUI")
 font1 = "Courier"
 
-query = 'all recipes'
+query = ''
 
 title = Label(root, text = "What's in your fridge?", font=(font1, 36))
 title.pack()
@@ -16,11 +16,17 @@ prompt.pack()
 entry = Entry(root, width = 50)
 entry.pack()
 entry.focus_set() 
+websitepromp = Label(root, text = "enter website", font=(font1,36))
+website = Entry(root, width = 50)
+websitepromp.pack()
+website.pack()
+website.focus_set()
 def clicklink(link):
     webbrowser.open_new(link)
 def callback(): 
     ingredients = (entry.get())
     arr = ingredients.strip().split(',')
+    query = website.get()
     s = Search(arr)
     s.search(query)
     link = s.links
