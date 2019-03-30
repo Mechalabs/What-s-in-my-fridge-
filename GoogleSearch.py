@@ -14,6 +14,8 @@ class Search():
         self.tabUrl = "https://www.allrecipes.com/search/?sort=Title&page="
         self.searches = []
         self.array = ingredients
+        self.stop = 2
+        self.pause = 1.0
         
         for i in range(len(self.array)):
             temp = ''
@@ -30,28 +32,23 @@ class Search():
         for i in self.searches:
             print(i)
 
-    def googleSearch(self):
-        
+    def search(self, site):
+        site = site.lower()
         for i in self.searches:
-            currentQuery = str(i) + ' recipe'
-            for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=3, pause=2.0):
-                r = requests.get(url)
-                print(url)
+            if site == 'all recipes':
+                currentQuery = 'site: allrecipes.com' + str(i) + ' recipe'
+            
+            elif site == 'jamie oliver':
+                currentQuery = 'site: jamieoliver.com' + str(i) + ' recipe'
+            
+            elif site == 'food network':
+                currentQuery = 'site: foodnetwork.ca' + str(i) + ' recipe'
 
-    def allRecipes(self):
-        for i in self.searches:
-            currentQuery = 'site: allrecipes.com ' + str(i) + ' recipe'
-            for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=3, pause=1.0):
-                print(url)
-
-'''             TO DO LATER
-                http = urllib3.PoolManager()
-                r = http.request('GET', url)
-                soup = BeautifulSoup(r.data, 'html.parser')
-
-                for p in soup.select('li'):
-                    if p['class'] == 'checkList__line':
-                        print(p.text)
-'''
+            else:
+                currentQuery = str(i) + ' recipe'
+            
+            for url in search(currentQuery, tld='com', lang='en', num=10, start=0, stop=self.stop, pause=self.pause):
+                print('Unknown recipe. Searching google:  ' + url)
+                
 s = Search(['tomato','bread'])
-s.allRecipes()
+s.search('hiiii')
